@@ -6,7 +6,7 @@ const operationsApi = new OperationApi();
 
 router.get("/", async (req, res) => {
   try {
-    const operations = await operationsApi.getOperations();
+    const operations = await operationsApi.getLatestOperations();
     res.json(operations);
   } catch (error) {
     console.log(error);

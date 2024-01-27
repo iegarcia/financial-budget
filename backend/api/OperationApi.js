@@ -1,10 +1,15 @@
+import { Sequelize } from "sequelize";
+import { db } from "../db/database.js";
 import Operation from "../models/Operation.js";
+import OperationDAOFactory from "../dao/daoFactory.js";
 
 class OperationApi {
-  async getOperations() {
+  constructor() {
+    this.operationsDAO = OperationDAOFactory.getDao();
+  }
+  async getLatestOperations() {
     try {
-      const operations = await Operation.findAll();
-
+      const operations = this.operationsDAO.getData();
       return operations;
     } catch (error) {
       console.error(error);
@@ -17,6 +22,15 @@ class OperationApi {
       console.log("Operation added", addRegister);
     } catch (error) {
       console.error("Error al crear la operación:", error);
+    }
+  }
+
+  async getBalance() {
+    try {
+      const balance = await this.operationsDAO.balance();
+      return balance;
+    } catch (error) {
+      console.error(error);
     }
   }
 }
