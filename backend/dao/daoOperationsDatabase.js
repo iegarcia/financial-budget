@@ -12,7 +12,7 @@ class OperationsDAODatabase extends OperationDao {
   async getData() {
     try {
       const data = await db.query(
-        "SELECT op.Concept, op.Amount, op.Date FROM operations op LIMIT 10",
+        "SELECT op.id, op.Concept, op.Amount, op.Date, op.OperationType FROM operations op LIMIT 10",
         { type: Sequelize.QueryTypes.SELECT }
       );
       this.operations = data;

@@ -42,6 +42,7 @@ const Home = () => {
             <th>Date</th>
             <th>Concept</th>
             <th>Amount</th>
+            <th>Type</th>
           </tr>
         </thead>
         <tbody>
@@ -51,6 +52,7 @@ const Home = () => {
                 <td>{new Date(op.Date).toLocaleString()}</td>
                 <td>{op.Concept}</td>
                 {validateType(op.OperationType, op.Amount)}
+                <td>{op.OperationType}</td>
               </tr>
             );
           })}
