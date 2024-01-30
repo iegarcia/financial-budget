@@ -19,7 +19,7 @@ class OperationApi {
   async addOperation(register) {
     try {
       const addRegister = await Operation.create(register);
-      console.log("Operation added", addRegister);
+      return addRegister
     } catch (error) {
       console.error("Error al crear la operación:", error);
     }

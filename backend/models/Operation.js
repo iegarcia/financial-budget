@@ -2,18 +2,19 @@ import { DataTypes } from "sequelize";
 import { db } from "../db/database.js";
 
 const Operation = db.define("Operation", {
-  Concept: {
+  concept: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
-  Amount: {
+  amount: {
     type: DataTypes.DECIMAL,
     allowNull: false,
   },
-  Date: {
+  date: {
     type: DataTypes.DATE,
     allowNull: false,
   },
-  OperationType: {
+  operationType: {
     type: DataTypes.ENUM("ingreso", "egreso"),
     allowNull: false,
   },

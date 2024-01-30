@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { getData } from "../functions";
 
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import Balance from "../components/Balance";
+import AddOperation from "../components/AddOperation";
 
 const Home = () => {
   const [operations, setOperations] = useState([]);
@@ -29,13 +28,10 @@ const Home = () => {
     <>
       <Balance />
       <hr />
-      <div className="d-flex justify-content-between">
-        <h3>Recent Movements</h3>
 
-        <Link to="/add">
-          <Button className="btn-success mb-3">New Operation</Button>
-        </Link>
-      </div>
+      <AddOperation />
+      <br />
+      <h3>Last movements</h3>
       <Table striped bordered hover>
         <thead>
           <tr>

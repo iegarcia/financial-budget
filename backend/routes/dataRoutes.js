@@ -14,16 +14,15 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const addOperation = {
-    Concept: req.body.concept,
-    Amount: req.body.amount,
-    Date: new Date(),
-    OperationType: req.body.type,
+  const operation = {
+    concept: req.body.concept,
+    amount: req.body.amount,
+    date: new Date(),
+    operationType: req.body.type,
   };
-  console.log(addOperation);
 
   try {
-    const newOperation = await operationsApi.addOperation(addOperation);
+    const newOperation = await operationsApi.addOperation(operation);
     res.json(newOperation);
   } catch (error) {
     console.log(error);
