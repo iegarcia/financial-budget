@@ -64,7 +64,7 @@ const AddOperation = () => {
                   aria-label="Default select example"
                   required
                 >
-                  <option selected hidden>
+                  <option defaultValue hidden>
                     Select the operation
                   </option>
                   <option value="ingreso">Ingreso</option>

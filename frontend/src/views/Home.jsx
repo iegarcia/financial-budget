@@ -4,9 +4,13 @@ import { getData } from "../functions";
 import Table from "react-bootstrap/Table";
 import Balance from "../components/Balance";
 import AddOperation from "../components/AddOperation";
+import Button from "react-bootstrap/esm/Button";
+import UpdateOperation from "../components/UpdateOperation";
 
 const Home = () => {
   const [operations, setOperations] = useState([]);
+  const [show, setShow] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     async function run() {
@@ -18,10 +22,21 @@ const Home = () => {
 
   const validateType = (type, amount) => {
     return type === "egreso" ? (
-      <td className="text-danger">{`- $${amount}`}</td>
+      <td className="text-danger">{`- $${Number(amount).toLocaleString(
+        "es-ES",
+        { style: "decimal", minimumFractionDigits: 2 }
+      )}`}</td>
     ) : (
-      <td className="text-success">{`+ $${amount}`}</td>
+      <td className="text-success">{`+ $${Number(amount).toLocaleString(
+        "es-ES",
+        { style: "decimal", minimumFractionDigits: 2 }
+      )}`}</td>
     );
+  };
+
+  const handleEdit = (op) => {
+    setSelectedItem(op);
+    setShow(true);
   };
 
   return (
@@ -49,11 +64,25 @@ const Home = () => {
                 <td>{op.Concept}</td>
                 {validateType(op.OperationType, op.Amount)}
                 <td>{op.OperationType}</td>
+                <td>
+                  <Button
+                    className="btn btn-warning"
+                    onClick={() => handleEdit(op)}
+                  >
+                    Editar
+                  </Button>
+                </td>
+                <td>Eliminar</td>
               </tr>
             );
           })}
         </tbody>
       </Table>
+      <UpdateOperation
+        item={selectedItem}
+        show={show}
+        onHide={() => setShow(false)}
+      />
     </>
   );
 };

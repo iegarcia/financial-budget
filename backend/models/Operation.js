@@ -7,7 +7,7 @@ const Operation = db.define("Operation", {
     allowNull: false,
   },
   amount: {
-    type: DataTypes.DECIMAL,
+    type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
   },
   date: {
