@@ -4,13 +4,18 @@ import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import { useEffect, useState } from "react";
 import { updateOperation } from "../functions";
+import { useData } from "../../context/OperationsContext";
 
 const UpdateOperation = ({ item, show, onHide }) => {
   const [operation, setOperation] = useState({
     concept: "",
     amount: 0,
     date: "",
+    type: "",
   });
+
+  const { modifyOperation } = useData();
+
   useEffect(() => {
     if (item) {
       setOperation({
@@ -18,6 +23,7 @@ const UpdateOperation = ({ item, show, onHide }) => {
         Concept: item.Concept,
         Amount: item.Amount,
         Date: new Date(item.Date).toISOString().split("T")[0],
+        type: item.OperationType,
       });
     }
   }, [item]);
@@ -25,8 +31,8 @@ const UpdateOperation = ({ item, show, onHide }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateOperation(operation);
-      alert("Actualizado!");
+      await modifyOperation(operation);
+      onHide();
     } catch (error) {
       alert(error);
     }
@@ -43,7 +49,7 @@ const UpdateOperation = ({ item, show, onHide }) => {
           <Offcanvas.Title>Update Operation</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          {!show ? (
+          {!item ? (
             <Spinner variant="dark" animation="border" />
           ) : (
             <Form onSubmit={handleSubmit}>
@@ -77,6 +83,18 @@ const UpdateOperation = ({ item, show, onHide }) => {
                   placeholder="100,00"
                   required
                 />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Type</Form.Label>
+                <h5
+                  className={
+                    operation && operation.type == "ingreso"
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                >
+                  {operation.type.toUpperCase()}
+                </h5>
               </Form.Group>
               {/* <Form.Group className="mb-3" controlId="formBasicPassword"> */}
               <Button variant="primary" type="submit">

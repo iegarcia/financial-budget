@@ -5,7 +5,7 @@ dotenv.config();
 
 export const db = new Sequelize(process.env.DB_TABLE, process.env.DB_USER, "", {
   host: process.env.DB_HOST,
-  port: 3307,
+  port: process.env.DB_PORT,
   dialect: "mysql",
 });
 

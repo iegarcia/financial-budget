@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { getCurrentBalance } from "../functions";
+import { useData } from "../../context/OperationsContext";
 
 const Balance = () => {
   const [money, setMoney] = useState(0);
+  const { operations } = useData();
 
   useEffect(() => {
     async function run() {
@@ -10,7 +12,7 @@ const Balance = () => {
       setMoney(total);
     }
     run();
-  }, []);
+  }, [operations.length]);
 
   return (
     <div className="jumbotron">

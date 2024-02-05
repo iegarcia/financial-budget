@@ -14,8 +14,10 @@ export const getCurrentBalance = async () => {
 
 export const addOperation = async (operation) => {
   const response = await axios.post(`${URL}/data/add`, operation);
+  return response.data;
 };
 
 export const updateOperation = async (operation) => {
   const response = await axios.post(`${URL}/data/edit`, operation);
+  return response.data;
 };

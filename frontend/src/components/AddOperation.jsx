@@ -3,6 +3,7 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import { addOperation } from "../functions";
+import { useData } from "../../context/OperationsContext";
 
 const AddOperation = () => {
   const [operation, setOperation] = useState({
@@ -11,11 +12,14 @@ const AddOperation = () => {
     type: "",
   });
 
+  const { newOperation } = useData();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addOperation(operation);
-      alert("Agregado correctamente!");
+      await newOperation(operation);
+
+      // alert("Agregado correctamente!");
     } catch (error) {
       alert(error);
     }

@@ -1,24 +1,23 @@
 import { useEffect, useState } from "react";
-import { getData } from "../functions";
 
 import Table from "react-bootstrap/Table";
 import Balance from "../components/Balance";
 import AddOperation from "../components/AddOperation";
 import Button from "react-bootstrap/esm/Button";
 import UpdateOperation from "../components/UpdateOperation";
+import { useData } from "../../context/OperationsContext";
 
 const Home = () => {
-  const [operations, setOperations] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const { operations } = useData();
 
-  useEffect(() => {
-    async function run() {
-      const operationsData = await getData();
-      setOperations(operationsData);
-    }
-    run();
-  }, []);
+  // useEffect(() => {
+  //   async function run() {
+  //     console.log("test");
+  //   }
+  //   run();
+  // }, [operations.length]);
 
   const validateType = (type, amount) => {
     return type === "egreso" ? (
@@ -47,37 +46,47 @@ const Home = () => {
       <AddOperation />
       <br />
       <h3>Last movements</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Concept</th>
-            <th>Amount</th>
-            <th>Type</th>
-          </tr>
-        </thead>
-        <tbody>
-          {operations.map((op, i) => {
-            return (
-              <tr key={i}>
-                <td>{new Date(op.Date).toLocaleString()}</td>
-                <td>{op.Concept}</td>
-                {validateType(op.OperationType, op.Amount)}
-                <td>{op.OperationType}</td>
-                <td>
-                  <Button
-                    className="btn btn-warning"
-                    onClick={() => handleEdit(op)}
-                  >
-                    Editar
-                  </Button>
-                </td>
-                <td>Eliminar</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      {operations.length <= 0 ? (
+        <h3 className="text-center alert alert-info">
+          The movements you add, will appear here
+        </h3>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Concept</th>
+              <th>Amount</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {operations.map((op, i) => {
+              return (
+                <tr key={i}>
+                  <td>{new Date(op.Date).toLocaleString()}</td>
+                  <td>{op.Concept}</td>
+                  {validateType(op.OperationType, op.Amount)}
+                  <td>
+                    {op.OperationType != undefined
+                      ? op.OperationType.toUpperCase()
+                      : "Cargando..."}
+                  </td>
+                  <td>
+                    <Button
+                      className="btn btn-warning"
+                      onClick={() => handleEdit(op)}
+                    >
+                      Editar
+                    </Button>
+                  </td>
+                  <td>Eliminar</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      )}
       <UpdateOperation
         item={selectedItem}
         show={show}
