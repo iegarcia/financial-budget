@@ -3,15 +3,14 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import { useEffect, useState } from "react";
-import { updateOperation } from "../functions";
 import { useData } from "../../context/OperationsContext";
 
 const UpdateOperation = ({ item, show, onHide }) => {
   const [operation, setOperation] = useState({
-    concept: "",
-    amount: 0,
-    date: "",
-    type: "",
+    Concept: "",
+    Amount: 0,
+    Date: "",
+    OperationType: "",
   });
 
   const { modifyOperation } = useData();
@@ -22,8 +21,8 @@ const UpdateOperation = ({ item, show, onHide }) => {
         id: item.id,
         Concept: item.Concept,
         Amount: item.Amount,
-        Date: new Date(item.Date).toISOString().split("T")[0],
-        type: item.OperationType,
+        Date: item.Date.split("T")[0],
+        OperationType: item.OperationType,
       });
     }
   }, [item]);
@@ -56,11 +55,10 @@ const UpdateOperation = ({ item, show, onHide }) => {
               <Form.Group className="mb-3" controlId="formBasicDate">
                 <Form.Label> Date</Form.Label>
                 <Form.Control
-                  value={operation.Date}
+                  value={operation.Date.split("T")[0]}
                   onChange={handleChange}
                   type="date"
                   name="Date"
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -70,30 +68,28 @@ const UpdateOperation = ({ item, show, onHide }) => {
                   onChange={handleChange}
                   name="Concept"
                   type="text"
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
-                  value={Number(operation.Amount).toLocaleString()}
+                  value={Number(operation.Amount)}
                   onChange={handleChange}
                   name="Amount"
                   type="text"
                   placeholder="100,00"
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Type</Form.Label>
                 <h5
                   className={
-                    operation && operation.type == "ingreso"
+                    operation && operation.OperationType == "ingreso"
                       ? "alert alert-success"
                       : "alert alert-danger"
                   }
                 >
-                  {operation.type.toUpperCase()}
+                  {operation.OperationType.toUpperCase()}
                 </h5>
               </Form.Group>
               {/* <Form.Group className="mb-3" controlId="formBasicPassword"> */}

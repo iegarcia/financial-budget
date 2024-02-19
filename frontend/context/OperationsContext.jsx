@@ -15,7 +15,6 @@ function OperationsProvider({ children }) {
     const operationAdded = await addOperation(op);
 
     setOperations((prevData) => [...prevData, operationAdded]);
-    console.log(operations);
   };
 
   const modifyOperation = async (op) => {

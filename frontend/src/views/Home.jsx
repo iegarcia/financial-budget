@@ -54,6 +54,7 @@ const Home = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
+              <th>#</th>
               <th>Date</th>
               <th>Concept</th>
               <th>Amount</th>
@@ -64,14 +65,12 @@ const Home = () => {
             {operations.map((op, i) => {
               return (
                 <tr key={i}>
-                  <td>{new Date(op.Date).toLocaleString()}</td>
+                  <td>{op.id}</td>
+                  <td>{op.Date.split("T")[0]}</td>
+
                   <td>{op.Concept}</td>
                   {validateType(op.OperationType, op.Amount)}
-                  <td>
-                    {op.OperationType != undefined
-                      ? op.OperationType.toUpperCase()
-                      : "Cargando..."}
-                  </td>
+                  <td>{op.OperationType}</td>
                   <td>
                     <Button
                       className="btn btn-warning"

@@ -38,7 +38,6 @@ class OperationApi {
           returning: true,
         }
       );
-      return oldRegister;
     } catch (error) {
       console.error("Error al crear la operación:", error);
     }
