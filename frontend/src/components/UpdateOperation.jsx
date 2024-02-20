@@ -21,7 +21,7 @@ const UpdateOperation = ({ item, show, onHide }) => {
         id: item.id,
         Concept: item.Concept,
         Amount: item.Amount,
-        Date: item.Date.split("T")[0],
+        Date: item.Date,
         OperationType: item.OperationType,
       });
     }
@@ -55,10 +55,11 @@ const UpdateOperation = ({ item, show, onHide }) => {
               <Form.Group className="mb-3" controlId="formBasicDate">
                 <Form.Label> Date</Form.Label>
                 <Form.Control
-                  value={operation.Date.split("T")[0]}
+                  value={new Date(operation.Date).toLocaleString()}
                   onChange={handleChange}
-                  type="date"
+                  type="text"
                   name="Date"
+                  disabled
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -73,7 +74,7 @@ const UpdateOperation = ({ item, show, onHide }) => {
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
-                  value={Number(operation.Amount)}
+                  value={operation.Amount}
                   onChange={handleChange}
                   name="Amount"
                   type="text"

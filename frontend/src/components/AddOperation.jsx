@@ -18,8 +18,7 @@ const AddOperation = () => {
     e.preventDefault();
     try {
       await newOperation(operation);
-
-      // alert("Agregado correctamente!");
+      e.target.reset();
     } catch (error) {
       alert(error);
     }
@@ -40,7 +39,6 @@ const AddOperation = () => {
               onSubmit={handleSubmit}
             >
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                {/* <Form.Label>Concept</Form.Label> */}
                 <Form.Control
                   onChange={handleChange}
                   name="concept"
@@ -50,7 +48,6 @@ const AddOperation = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                {/* <Form.Label>Amount</Form.Label> */}
                 <Form.Control
                   onChange={handleChange}
                   name="amount"
@@ -61,7 +58,6 @@ const AddOperation = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
-                {/* <Form.Label>Type</Form.Label> */}
                 <Form.Select
                   onChange={handleChange}
                   name="type"

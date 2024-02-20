@@ -6,29 +6,24 @@ import AddOperation from "../components/AddOperation";
 import Button from "react-bootstrap/esm/Button";
 import UpdateOperation from "../components/UpdateOperation";
 import { useData } from "../../context/OperationsContext";
+import DeleteModal from "../components/DeleteModal";
 
 const Home = () => {
   const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const { operations } = useData();
-
-  // useEffect(() => {
-  //   async function run() {
-  //     console.log("test");
-  //   }
-  //   run();
-  // }, [operations.length]);
 
   const validateType = (type, amount) => {
     return type === "egreso" ? (
       <td className="text-danger">{`- $${Number(amount).toLocaleString(
-        "es-ES",
-        { style: "decimal", minimumFractionDigits: 2 }
+        "es-AR",
+        { currency: "ARS", style: "decimal", minimumFractionDigits: 2 }
       )}`}</td>
     ) : (
       <td className="text-success">{`+ $${Number(amount).toLocaleString(
-        "es-ES",
-        { style: "decimal", minimumFractionDigits: 2 }
+        "es-AR",
+        { currency: "ARS", style: "decimal", minimumFractionDigits: 2 }
       )}`}</td>
     );
   };
@@ -36,6 +31,10 @@ const Home = () => {
   const handleEdit = (op) => {
     setSelectedItem(op);
     setShow(true);
+  };
+  const handleDelete = (op) => {
+    setSelectedItem(op);
+    setShowDelete(true);
   };
 
   return (
@@ -54,7 +53,6 @@ const Home = () => {
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
               <th>Date</th>
               <th>Concept</th>
               <th>Amount</th>
@@ -65,8 +63,7 @@ const Home = () => {
             {operations.map((op, i) => {
               return (
                 <tr key={i}>
-                  <td>{op.id}</td>
-                  <td>{op.Date.split("T")[0]}</td>
+                  <td>{new Date(op.Date).toLocaleString()}</td>
 
                   <td>{op.Concept}</td>
                   {validateType(op.OperationType, op.Amount)}
@@ -77,9 +74,14 @@ const Home = () => {
                       onClick={() => handleEdit(op)}
                     >
                       Editar
+                    </Button>{" "}
+                    <Button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(op)}
+                    >
+                      Eliminar
                     </Button>
                   </td>
-                  <td>Eliminar</td>
                 </tr>
               );
             })}
@@ -91,6 +93,13 @@ const Home = () => {
         show={show}
         onHide={() => setShow(false)}
       />
+      {selectedItem !== null ? (
+        <DeleteModal
+          show={showDelete}
+          handleClose={() => setShowDelete(false)}
+          item={selectedItem}
+        />
+      ) : null}
     </>
   );
 };

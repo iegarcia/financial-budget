@@ -21,3 +21,7 @@ export const updateOperation = async (operation) => {
   const response = await axios.post(`${URL}/data/edit`, operation);
   return response.data;
 };
+export const deleteOperation = async (id) => {
+  const response = await axios.delete(`${URL}/data/${id}`);
+  return response.data;
+};
