@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import { db } from "../db/database.js";
 import OperationDao from "./daoOperations.js";
 import Operation from "../models/Operation.js";
@@ -12,7 +12,7 @@ class OperationsDAODatabase extends OperationDao {
   async getData() {
     try {
       const data = await db.query(
-        "SELECT op.id, op.Concept, op.Amount, op.Date, op.OperationType FROM operations op ORDER BY op.Date DESC LIMIT 10",
+        "SELECT op.id, op.Concept, op.Amount, op.Date, op.OperationType FROM operations op ORDER BY op.createdAt DESC LIMIT 10",
         { type: Sequelize.QueryTypes.SELECT }
       );
       this.operations = data;
@@ -28,6 +28,41 @@ class OperationsDAODatabase extends OperationDao {
       console.log("Operation added", addRegister);
     } catch (error) {
       console.error("Error al crear la operación:", error);
+    }
+  }
+
+  async update(register) {
+    try {
+      await Operation.update(
+        {
+          concept: register.concept,
+          amount: register.amount,
+          date: register.date,
+        },
+        {
+          where: {
+            id: { [Op.eq]: register.id },
+          },
+          returning: true,
+        }
+      );
+    } catch (error) {
+      alert(error);
+      console.error("Error al crear la operación:", error);
+    }
+  }
+
+  async delete(operationId) {
+    try {
+      const rowsDeleted = await Operation.destroy({
+        where: {
+          id: operationId,
+        },
+      });
+
+      console.log(`${rowsDeleted} registro(s) eliminado(s)`);
+    } catch (error) {
+      console.error("Error al eliminar el registro:", error);
     }
   }
 

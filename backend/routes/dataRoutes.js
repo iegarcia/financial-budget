@@ -43,5 +43,13 @@ router.post("/edit", async (req, res) => {
     console.log(error);
   }
 });
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleteOperation = await operationsApi.deleteOperation(req.params.id);
+    res.json(deleteOperation);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default router;

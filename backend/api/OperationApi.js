@@ -1,5 +1,3 @@
-import { Op } from "sequelize";
-import Operation from "../models/Operation.js";
 import OperationDAOFactory from "../dao/daoFactory.js";
 
 class OperationApi {
@@ -17,7 +15,7 @@ class OperationApi {
 
   async addOperation(register) {
     try {
-      const addRegister = await Operation.create(register);
+      const addRegister = await this.operationsDAO.add(register);
       return addRegister;
     } catch (error) {
       console.error("Error al crear la operación:", error);
@@ -25,21 +23,17 @@ class OperationApi {
   }
   async updateOperation(register) {
     try {
-      const oldRegister = await Operation.update(
-        {
-          concept: register.concept,
-          amount: register.amount,
-          date: register.date,
-        },
-        {
-          where: {
-            id: { [Op.eq]: register.id },
-          },
-          returning: true,
-        }
-      );
+      await this.operationsDAO.update(register);
     } catch (error) {
       console.error("Error al crear la operación:", error);
+    }
+  }
+
+  async deleteOperation(id) {
+    try {
+      await this.operationsDAO.delete(id);
+    } catch (error) {
+      console.error(error);
     }
   }
 
